@@ -7,7 +7,7 @@ writer varchar(500) not null,
 content text,
 is_del varchar(5) default 'N',
 reg_date datetime default now(),
-read_cout int default 0,
+read_count int default 0,
 primary key(bno));
 
 -- 241031
@@ -18,3 +18,14 @@ writer varchar(500) not null,
 content text,
 reg_date datetime default now(),
 primary key(cno));
+
+-- 241101
+create table file (
+uuid varchar(256) not null,
+save_dir varchar(256) not null,
+file_name varchar(256) not null,
+file_type tinyint(1) default 0,
+bno bigint,
+file_size bigint,
+reg_date datetime default now(),
+primary key(uuid));

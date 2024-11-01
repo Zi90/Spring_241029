@@ -1,6 +1,6 @@
 package com.ezen.spring.service;
 
-import java.util.List;
+//import java.util.List;
 
 import com.ezen.spring.domain.CommentVO;
 import com.ezen.spring.domain.PagingVO;
