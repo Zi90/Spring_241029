@@ -4,9 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ezen.spring.domain.BoardDTO;
@@ -73,8 +77,14 @@ public class BoardController {
 	}
 	
 	@PostMapping("/update")
-	public String update(BoardVO bvo) {
-		int isOk = bsv.modify(bvo);
+	public String update(BoardVO bvo, @RequestParam(name="files", required = false) MultipartFile[] files) {
+		List<FileVO> flist = null;
+		
+		if(files[0].getSize() > 0) {
+			flist = fh.uploadFiles(files);
+		}		
+		int isOk = bsv.modify(new BoardDTO(bvo, flist));
+//		int isOk = bsv.modify(bvo);
 		log.info(">>> update > {}", isOk > 0 ? "OK" : "FAIL");
 		
 		// detail.jsp로 이동 X => controller detail mapping으로 이동 => redirect:/
@@ -100,5 +110,11 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	@ResponseBody
+	@DeleteMapping("/file/{uuid}")
+	public String fileDelete(@PathVariable("uuid")String uuid) {
+		int isOk = bsv.removeFile(uuid);
+		return isOk > 0 ? "1":"0";
+	}
 	
 }

@@ -23,4 +23,7 @@ public interface BoardDAO {
 
 	long getOneBno();
 
+	void updateCmtQty();
+
+	void updateHasFile();
 }

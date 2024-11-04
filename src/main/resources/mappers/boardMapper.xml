@@ -33,9 +33,13 @@
   	<select id="getOneBno" resultType="long">
   		select max(bno) from board
   	</select>
-  	
+  	<update id="updateCmtQty">
+  		update board b set cmt_qty = (select count(bno) from comment where bno = b.bno);
+  	</update>
+  	<update id="updateHasFile">
+  		update board b set has_file = (select count(bno) from file where bno = b.bno);
+  	</update>
   	<!-- search 동적 쿼리 -->
-  	
   	<!-- 
 	  	select * from board 
 	  	where is_del = 'N' and title like concat('%', keyword, '%') or writer like concat('%', keyword, '%') )
